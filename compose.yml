@@ -1,0 +1,47 @@
+name: habit-shaper
+
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-habit_shaper}
+      MYSQL_USER: ${MYSQL_USER:-habit_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-habit_pass}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_pass_change_me}
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root_pass_change_me}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      PORT: 4000
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: ${MYSQL_USER:-habit_user}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-habit_pass}
+      DB_NAME: ${MYSQL_DATABASE:-habit_shaper}
+      JWT_SECRET: ${JWT_SECRET:-change_this_to_a_long_random_string}
+    ports:
+      - "4000:4000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  db-data:

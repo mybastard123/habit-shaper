@@ -52,6 +52,7 @@ Optional. The defaults in `compose.yml` make the app runnable out of the box. Co
 | `MYSQL_PASSWORD`     | `habit_pass`               | MySQL application password           |
 | `MYSQL_ROOT_PASSWORD`| `root_pass_change_me`      | MySQL root password (set a real one) |
 | `JWT_SECRET`         | `change_this_to_a_long_random_string` | Secret used to sign auth tokens |
+| `TZ`                 | `UTC`                      | IANA timezone used for "today"/streaks (e.g. `Asia/Jakarta`) |
 
 **Never commit a real `.env`.** Only `.env.example` with placeholders is tracked.
 

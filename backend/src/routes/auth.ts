@@ -13,6 +13,14 @@ interface UserRow {
 
 const router = Router();
 
+function isDuplicateEntry(err: unknown): boolean {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    (err as { code?: string }).code === "ER_DUP_ENTRY"
+  );
+}
+
 router.post("/register", async (req, res, next) => {
   try {
     const { email, password } = req.body ?? {};
@@ -33,6 +41,12 @@ router.post("/register", async (req, res, next) => {
     const user = { id: Number(result.insertId), email };
     res.status(201).json({ token: signToken(user), user });
   } catch (err) {
+    // The pre-check above handles the common case; this catches the race where two
+    // concurrent registrations use the same email and the INSERT hits the unique key.
+    if (isDuplicateEntry(err)) {
+      next(new HttpError(409, "Email already registered"));
+      return;
+    }
     next(err);
   }
 });

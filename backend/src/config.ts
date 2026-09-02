@@ -9,4 +9,5 @@ export const config = {
   },
   jwtSecret: process.env.JWT_SECRET ?? "insecure_dev_secret_change_me",
   jwtExpiresIn: "7d",
+  timezone: process.env.TZ ?? "UTC",
 };

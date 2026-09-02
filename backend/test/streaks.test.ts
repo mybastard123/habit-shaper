@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { addDays, buildStats, breakStats, diffDays, weekStart } from "../src/services/streaks";
+import { addDays, buildStats, breakStats, diffDays, todayStr, weekStart } from "../src/services/streaks";
+
+describe("todayStr", () => {
+  it("returns a valid YYYY-MM-DD date", () => {
+    expect(todayStr()).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+});
 
 describe("addDays", () => {
   it("adds days across a month boundary", () => {

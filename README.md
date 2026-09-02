@@ -117,7 +117,7 @@ Optional. The defaults in `compose.yml` make the app runnable out of the box. Co
 ```
 ├── compose.yml            # db + backend + frontend services
 ├── .env.example           # placeholder environment variables
-├── docs/                  # planning: architecture, data model, task breakdown
+├── docs/                  # planning: architecture, data model, task breakdown, agentic workflow
 ├── backend/
 │   ├── Dockerfile
 │   └── src/
@@ -146,6 +146,9 @@ cd backend && npm install && npm run dev
 
 # frontend on :5173 with /api proxied to localhost:4000
 cd frontend && npm install && npm run dev
+
+# backend tests (unit + smoke; no database required)
+cd backend && npm test
 ```
 
 ## Verification

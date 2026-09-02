@@ -34,6 +34,10 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 
   const body = await res.json().catch(() => ({}))
   if (!res.ok) {
+    if (res.status === 401 && !path.endsWith('/login') && !path.endsWith('/register')) {
+      clearToken()
+      window.location.assign('/login')
+    }
     throw new ApiError((body as { error?: string }).error ?? 'Request failed', res.status)
   }
   return body as T

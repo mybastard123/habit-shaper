@@ -243,6 +243,7 @@ select:focus {
 .habit-header h3 {
   margin: 0;
   font-size: 17px;
+  overflow-wrap: anywhere;
 }
 
 .habit-actions {
@@ -384,4 +385,90 @@ select:focus {
   flex-direction: column;
   gap: 8px;
   width: 100%;
+}
+
+/* ---------- Mobile / small screens ---------- */
+
+@media (max-width: 640px) {
+  .container {
+    padding: 16px 12px 48px;
+  }
+
+  .nav {
+    padding: 10px 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .nav-brand {
+    font-size: 16px;
+  }
+
+  .nav-links {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .nav-email {
+    display: none;
+  }
+
+  h1 {
+    font-size: 21px;
+  }
+
+  h2 {
+    font-size: 16px;
+  }
+
+  .auth-card {
+    margin: 24px auto;
+    padding: 20px;
+  }
+
+  .create-habit {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .create-habit input,
+  .create-habit select,
+  .create-habit .btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .habit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .habit-header {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .habit-actions {
+    margin-left: auto;
+  }
+
+  .inline-form {
+    flex-wrap: wrap;
+  }
+
+  .inline-form input {
+    flex-basis: 100%;
+  }
+
+  .weekly-days {
+    gap: 4px;
+  }
+
+  .goal-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .goal-card .habit-actions {
+    margin-left: 0;
+  }
 }

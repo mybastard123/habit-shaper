@@ -1,11 +1,7 @@
-import express from "express";
 import { config } from "./config";
 import { migrate } from "./db/migrate";
 import { pool } from "./db/pool";
-import authRoutes from "./routes/auth";
-import habitRoutes from "./routes/habits";
-import goalRoutes from "./routes/goals";
-import { errorHandler, notFound } from "./middleware/error";
+import { createApp } from "./app";
 
 async function start(): Promise<void> {
   try {
@@ -19,18 +15,7 @@ async function start(): Promise<void> {
     return;
   }
 
-  const app = express();
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-
-  app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
-  app.use("/api/auth", authRoutes);
-  app.use("/api/habits", habitRoutes);
-  app.use("/api/goals", goalRoutes);
-
-  app.use(notFound);
-  app.use(errorHandler);
-
+  const app = createApp();
   app.listen(config.port, () => {
     console.log(`[server] listening on :${config.port}`);
   });

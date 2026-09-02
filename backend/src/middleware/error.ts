@@ -23,6 +23,6 @@ export function errorHandler(
     res.status(err.status).json({ error: err.message });
     return;
   }
-  const message = err instanceof Error ? err.message : "Internal server error";
-  res.status(500).json({ error: message });
+  console.error("[error]", err);
+  res.status(500).json({ error: "Internal server error" });
 }

@@ -12,6 +12,16 @@ export function clearToken(): void {
   localStorage.removeItem(TOKEN_KEY)
 }
 
+// The browser's local calendar date, used as the "today" reference the backend
+// should evaluate streaks and weekly rates against (backend stays GMT by default).
+export function localToday(): string {
+  const d = new Date()
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
 export class ApiError extends Error {
   constructor(
     message: string,

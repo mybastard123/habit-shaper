@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { api } from '../api/client'
+import { api, localToday } from '../api/client'
 import type { Habit, HabitType } from '../api/client'
 import HabitCard from '../components/HabitCard'
 
@@ -15,7 +15,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     api
-      .get<{ habits: Habit[] }>('/api/habits')
+      .get<{ habits: Habit[] }>(`/api/habits?today=${localToday()}`)
       .then((res) => setHabits(res.habits))
       .catch((err) => setError(err instanceof Error ? err.message : 'Failed to load habits'))
       .finally(() => setLoading(false))
@@ -34,7 +34,7 @@ export default function Dashboard() {
     setCreateError(null)
     setCreating(true)
     try {
-      const res = await api.post<{ habit: Habit }>('/api/habits', { name, type })
+      const res = await api.post<{ habit: Habit }>('/api/habits', { name, type, today: localToday() })
       setHabits((prev) => [res.habit, ...prev])
       setName('')
     } catch (err) {

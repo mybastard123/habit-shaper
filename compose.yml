@@ -29,7 +29,6 @@ services:
       DB_PASSWORD: ${MYSQL_PASSWORD:-habit_pass}
       DB_NAME: ${MYSQL_DATABASE:-habit_shaper}
       JWT_SECRET: ${JWT_SECRET:-change_this_to_a_long_random_string}
-      TZ: ${TZ:-UTC}
     ports:
       - "4000:4000"
     depends_on:

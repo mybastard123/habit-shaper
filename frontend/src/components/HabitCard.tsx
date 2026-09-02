@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { api } from '../api/client'
+import { api, localToday } from '../api/client'
 import type { Habit } from '../api/client'
 import WeeklyRate from './WeeklyRate'
 
@@ -24,6 +24,7 @@ export default function HabitCard({ habit, onUpdated, onDeleted }: Props) {
     try {
       const res = await api.post<{ habit: Habit }>(
         `/api/habits/${habit.id}/${isBuild ? 'complete' : 'relapse'}`,
+        { date: localToday(), today: localToday() },
       )
       onUpdated(res.habit)
     } catch (err) {
@@ -38,7 +39,10 @@ export default function HabitCard({ habit, onUpdated, onDeleted }: Props) {
     setBusy(true)
     setError(null)
     try {
-      const res = await api.put<{ habit: Habit }>(`/api/habits/${habit.id}`, { name: name.trim() })
+      const res = await api.put<{ habit: Habit }>(`/api/habits/${habit.id}`, {
+        name: name.trim(),
+        today: localToday(),
+      })
       onUpdated(res.habit)
       setEditing(false)
     } catch (err) {

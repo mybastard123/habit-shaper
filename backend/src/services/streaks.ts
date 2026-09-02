@@ -1,21 +1,8 @@
-import { config } from "../config";
-
 export const DAY_MS = 86_400_000;
-
-function formatDateInTz(date: Date, timezone: string): string {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: timezone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(date);
-  const value = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
-  return `${value("year")}-${value("month")}-${value("day")}`;
-}
 
 export function todayStr(offsetDays = 0): string {
   const d = new Date(Date.now() + offsetDays * DAY_MS);
-  return formatDateInTz(d, config.timezone);
+  return d.toISOString().slice(0, 10);
 }
 
 export function addDays(date: string, days: number): string {

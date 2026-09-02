@@ -52,7 +52,6 @@ Optional. The defaults in `compose.yml` make the app runnable out of the box. Co
 | `MYSQL_PASSWORD`     | `habit_pass`               | MySQL application password           |
 | `MYSQL_ROOT_PASSWORD`| `root_pass_change_me`      | MySQL root password (set a real one) |
 | `JWT_SECRET`         | `change_this_to_a_long_random_string` | Secret used to sign auth tokens |
-| `TZ`                 | `UTC`                      | IANA timezone used for "today"/streaks (e.g. `Asia/Jakarta`) |
 
 **Never commit a real `.env`.** Only `.env.example` with placeholders is tracked.
 
@@ -112,6 +111,13 @@ Optional. The defaults in `compose.yml` make the app runnable out of the box. Co
   migrations run automatically on boot. Streaks and weekly rates are computed from log
   rows on read, never stored.
 - **Database** — official `mysql:8.0` image with a named volume for persistence.
+
+### Time handling
+
+The backend is timezone-agnostic and defaults to **GMT (UTC)**. The frontend sends the
+user's local calendar date as a `today` reference (query/body param), so streak and
+weekly-rate math always runs against the correct local day boundary no matter where the
+app is opened. Dates are stored as plain `YYYY-MM-DD` strings.
 
 ### Project structure
 
